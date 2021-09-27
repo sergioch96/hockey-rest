@@ -22,42 +22,60 @@ namespace hockey_rest.Services
             _appSettings = appSettings.Value;
         }
 
+        // Método de autenticación de usuario
         public UserResponse Auth(AuthRequest model)
         {
-            UserResponse userResponse = new UserResponse();
-            string sPassword = Encrypt.GetSHA256(model.Pass);
-
-            using (var db = new hockeydbContext())
+            try
             {
-                var usuario = db.Usuarios.Where(d => d.User.Equals(model.User) && d.Pass.Equals(sPassword)).FirstOrDefault();
+                UserResponse userResponse = new UserResponse();
+                string sPassword = Encrypt.GetSHA256(model.Pass);
 
-                if (usuario == null) return null;
+                using (var db = new hockeydbContext())
+                {
+                    var usuario = db.Usuarios.Where(d => d.User.Equals(model.User) && d.Pass.Equals(sPassword)).FirstOrDefault();
 
-                userResponse.Usuario = usuario.User;
-                userResponse.Token = GetToken(usuario);
+                    if (usuario == null) return null;
+
+                    userResponse.Usuario = usuario.User;
+                    userResponse.Token = GetToken(usuario);
+                }
+
+                return userResponse;
             }
-
-            return userResponse;
+            catch (Exception)
+            {
+                throw new Exception("Ocurrió un error al autenticar credenciales del usuario.");
+            }
         }
 
+        // Método que genera token para un usuario
         private string GetToken(Usuario usuario)
         {
-            JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
-
-            var llave = Encoding.ASCII.GetBytes(_appSettings.Secreto);
-            SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
+            try
             {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim(ClaimTypes.NameIdentifier, usuario.IdUsuario.ToString()),
-                    new Claim(ClaimTypes.Role, usuario.IdTipoUsuario.ToString())
-                }),
-                Expires = DateTime.UtcNow.AddDays(1),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(llave), SecurityAlgorithms.HmacSha256Signature)
-            };
+                JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
 
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
+                var llave = Encoding.ASCII.GetBytes(_appSettings.Secreto);
+                SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
+                {
+                    Subject = new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim(ClaimTypes.NameIdentifier, usuario.IdUsuario.ToString()),
+                        new Claim(ClaimTypes.Role, usuario.IdTipoUsuario.ToString())
+                    }),
+                    Expires = DateTime.UtcNow.AddDays(1),
+                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(llave), SecurityAlgorithms.HmacSha256Signature)
+                };
+
+                var token = tokenHandler.CreateToken(tokenDescriptor);
+
+                return tokenHandler.WriteToken(token);
+            }
+            catch (Exception)
+            {
+                throw new Exception("Ocurrió un error al intentar generar el token para el usuario.");
+            }
+
         }
     }
 }

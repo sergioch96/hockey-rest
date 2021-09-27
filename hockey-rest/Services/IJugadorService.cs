@@ -1,4 +1,4 @@
-﻿using hockey_rest.Models.Request;
+﻿using hockey_rest.Models.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace hockey_rest.Services
 {
-    public interface IEquipoService
+    public interface IJugadorService
     {
-        public void AgregarEquipo(EquipoRequest model);
+        public void AgregarJugador(PersonaDTO jugador);
     }
 }

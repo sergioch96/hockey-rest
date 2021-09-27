@@ -8,6 +8,7 @@ using hockey_rest.Models;
 using hockey_rest.Services;
 using hockey_rest.Models.Request;
 using hockey_rest.Models.Response;
+using hockey_rest.Models.Constants;
 
 namespace hockey_rest.Controllers
 {
@@ -27,16 +28,24 @@ namespace hockey_rest.Controllers
         {
             Respuesta respuesta = new Respuesta();
 
-            var userResponse = _userService.Auth(model);
-
-            if (userResponse == null)
+            try
             {
-                respuesta.Mensaje = "Usuario o contraseña incorrecta";
-                return BadRequest(respuesta);
-            }
+                var userResponse = _userService.Auth(model);
 
-            respuesta.Exito = 0;
-            respuesta.Data = userResponse;
+                if (userResponse == null)
+                {
+                    respuesta.Mensaje = "Usuario o contraseña incorrecta";
+                    return Ok(respuesta);
+                }
+
+                respuesta.Exito = EstadoRespuesta.Ok;
+                respuesta.Data = userResponse;
+
+            }
+            catch (Exception ex)
+            {
+                respuesta.Mensaje = ex.Message;
+            }
 
             return Ok(respuesta);
         }

@@ -10,8 +10,8 @@ namespace hockey_rest.Services
 {
     public class EquipoService : IEquipoService
     {
-        // Método que almacena un equipo
-        public void Add(EquipoRequest model)
+        // Método que almacena un equipo y su cuerpo técnico
+        public void AgregarEquipo(EquipoRequest model)
         {
             using (hockeydbContext db = new hockeydbContext())
             {
@@ -71,7 +71,7 @@ namespace hockey_rest.Services
                     catch (Exception)
                     {
                         transaction.Rollback();
-                        throw new Exception("Ocurrió al intentar guardar el equipo.");
+                        throw new Exception("Ocurrió un error al intentar guardar el equipo.");
                     }
                 }
             }

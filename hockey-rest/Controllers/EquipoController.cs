@@ -1,4 +1,5 @@
 ﻿using hockey_rest.Models;
+using hockey_rest.Models.Constants;
 using hockey_rest.Models.Request;
 using hockey_rest.Models.Response;
 using hockey_rest.Services;
@@ -23,16 +24,15 @@ namespace hockey_rest.Controllers
             _equipoService = equipoService;
         }
 
-        [HttpPost]
-        [Authorize]
-        public IActionResult Add(EquipoRequest model)
+        [HttpPost, Authorize]
+        public IActionResult AgregarEquipo(EquipoRequest model)
         {
             Respuesta respuesta = new Respuesta();
 
             try
             {
-                _equipoService.Add(model);
-                respuesta.Exito = 0;
+                _equipoService.AgregarEquipo(model);
+                respuesta.Exito = EstadoRespuesta.Ok;
                 respuesta.Mensaje = "Equipo agregado exitosamente.";
             }
             catch (Exception ex)
@@ -44,7 +44,7 @@ namespace hockey_rest.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult ObtenerEquipos()
         {
             Respuesta respuesta = new Respuesta();
 
@@ -53,7 +53,7 @@ namespace hockey_rest.Controllers
                 using (hockeydbContext db = new Models.hockeydbContext())
                 {
                     var lst = db.Equipos.ToList();
-                    respuesta.Exito = 1;
+                    respuesta.Exito = EstadoRespuesta.Ok;
                     respuesta.Data = lst;
                 }
             }
