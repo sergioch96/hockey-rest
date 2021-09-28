@@ -12,6 +12,8 @@ namespace hockey_rest.Models
             EquipoIdAsistenteTecnicoNavigations = new HashSet<Equipo>();
             EquipoIdDirectorTecnicoNavigations = new HashSet<Equipo>();
             EquipoIdPreparadorFisicoNavigations = new HashSet<Equipo>();
+            EquipoJugadors = new HashSet<EquipoJugador>();
+            JugadorPartidos = new HashSet<JugadorPartido>();
             PartidoIdArbitro1Navigations = new HashSet<Partido>();
             PartidoIdArbitro2Navigations = new HashSet<Partido>();
             PartidoIdJuezNavigations = new HashSet<Partido>();
@@ -29,6 +31,8 @@ namespace hockey_rest.Models
         public virtual ICollection<Equipo> EquipoIdAsistenteTecnicoNavigations { get; set; }
         public virtual ICollection<Equipo> EquipoIdDirectorTecnicoNavigations { get; set; }
         public virtual ICollection<Equipo> EquipoIdPreparadorFisicoNavigations { get; set; }
+        public virtual ICollection<EquipoJugador> EquipoJugadors { get; set; }
+        public virtual ICollection<JugadorPartido> JugadorPartidos { get; set; }
         public virtual ICollection<Partido> PartidoIdArbitro1Navigations { get; set; }
         public virtual ICollection<Partido> PartidoIdArbitro2Navigations { get; set; }
         public virtual ICollection<Partido> PartidoIdJuezNavigations { get; set; }

@@ -60,7 +60,7 @@ namespace hockey_rest.Services
                             IdDirectorTecnico = idDT,
                             IdAsistenteTecnico = idAT,
                             IdPreparadorFisico = idPF,
-                            Escudo = string.IsNullOrEmpty(model.Escudo) ? model.Escudo : null
+                            Escudo = string.IsNullOrEmpty(model.Escudo) ? null : model.Escudo
                         };
 
                         db.Equipos.Add(equipo);

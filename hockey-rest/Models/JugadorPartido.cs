@@ -7,6 +7,7 @@ namespace hockey_rest.Models
 {
     public partial class JugadorPartido
     {
+        public int IdJugadorPartido { get; set; }
         public int IdJugador { get; set; }
         public int IdPartido { get; set; }
         public byte? Goles { get; set; }

@@ -7,6 +7,7 @@ namespace hockey_rest.Models
 {
     public partial class CampeonatoEquipo
     {
+        public int IdCampeonatoEquipo { get; set; }
         public int IdCampeonato { get; set; }
         public int IdEquipo { get; set; }
         public byte? Puntos { get; set; }

@@ -7,6 +7,11 @@ namespace hockey_rest.Models
 {
     public partial class Partido
     {
+        public Partido()
+        {
+            JugadorPartidos = new HashSet<JugadorPartido>();
+        }
+
         public int IdPartido { get; set; }
         public int IdCampeonato { get; set; }
         public int IdEquipoLocal { get; set; }
@@ -30,5 +35,6 @@ namespace hockey_rest.Models
         public virtual Equipo IdEquipoLocalNavigation { get; set; }
         public virtual Equipo IdEquipoVisitanteNavigation { get; set; }
         public virtual Persona IdJuezNavigation { get; set; }
+        public virtual ICollection<JugadorPartido> JugadorPartidos { get; set; }
     }
 }

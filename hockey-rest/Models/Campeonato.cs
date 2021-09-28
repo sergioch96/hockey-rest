@@ -9,6 +9,7 @@ namespace hockey_rest.Models
     {
         public Campeonato()
         {
+            CampeonatoEquipos = new HashSet<CampeonatoEquipo>();
             Partidos = new HashSet<Partido>();
         }
 
@@ -18,6 +19,7 @@ namespace hockey_rest.Models
         public string Activo { get; set; }
 
         public virtual TipoCampeonato IdTipoCampeonatoNavigation { get; set; }
+        public virtual ICollection<CampeonatoEquipo> CampeonatoEquipos { get; set; }
         public virtual ICollection<Partido> Partidos { get; set; }
     }
 }

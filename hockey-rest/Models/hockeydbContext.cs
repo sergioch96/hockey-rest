@@ -76,9 +76,12 @@ namespace hockey_rest.Models
 
             modelBuilder.Entity<CampeonatoEquipo>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => e.IdCampeonatoEquipo)
+                    .HasName("PK__campeona__611C165567922531");
 
                 entity.ToTable("campeonato_equipo");
+
+                entity.Property(e => e.IdCampeonatoEquipo).HasColumnName("id_campeonato_equipo");
 
                 entity.Property(e => e.GolesContra).HasColumnName("goles_contra");
 
@@ -97,16 +100,16 @@ namespace hockey_rest.Models
                 entity.Property(e => e.Puntos).HasColumnName("puntos");
 
                 entity.HasOne(d => d.IdCampeonatoNavigation)
-                    .WithMany()
+                    .WithMany(p => p.CampeonatoEquipos)
                     .HasForeignKey(d => d.IdCampeonato)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__campeonat__id_ca__6EF57B66");
+                    .HasConstraintName("FK__campeonat__id_ca__31B762FC");
 
                 entity.HasOne(d => d.IdEquipoNavigation)
-                    .WithMany()
+                    .WithMany(p => p.CampeonatoEquipos)
                     .HasForeignKey(d => d.IdEquipo)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__campeonat__id_eq__6FE99F9F");
+                    .HasConstraintName("FK__campeonat__id_eq__32AB8735");
             });
 
             modelBuilder.Entity<Equipo>(entity =>
@@ -156,9 +159,12 @@ namespace hockey_rest.Models
 
             modelBuilder.Entity<EquipoJugador>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => e.IdEquipoJugador)
+                    .HasName("PK__equipo_j__A0E8AB799F30E7BA");
 
                 entity.ToTable("equipo_jugador");
+
+                entity.Property(e => e.IdEquipoJugador).HasColumnName("id_equipo_jugador");
 
                 entity.Property(e => e.AcumulaTarjAmarilla).HasColumnName("acumula_tarj_amarilla");
 
@@ -181,16 +187,16 @@ namespace hockey_rest.Models
                 entity.Property(e => e.PartidosSuspendidos).HasColumnName("partidos_suspendidos");
 
                 entity.HasOne(d => d.IdEquipoNavigation)
-                    .WithMany()
+                    .WithMany(p => p.EquipoJugadors)
                     .HasForeignKey(d => d.IdEquipo)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__equipo_ju__id_eq__5165187F");
+                    .HasConstraintName("FK__equipo_ju__id_eq__2A164134");
 
                 entity.HasOne(d => d.IdJugadorNavigation)
-                    .WithMany()
+                    .WithMany(p => p.EquipoJugadors)
                     .HasForeignKey(d => d.IdJugador)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__equipo_ju__id_ju__52593CB8");
+                    .HasConstraintName("FK__equipo_ju__id_ju__2B0A656D");
             });
 
             modelBuilder.Entity<EstadoPartido>(entity =>
@@ -211,9 +217,12 @@ namespace hockey_rest.Models
 
             modelBuilder.Entity<JugadorPartido>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => e.IdJugadorPartido)
+                    .HasName("PK__jugador___759D123B784679B5");
 
                 entity.ToTable("jugador_partido");
+
+                entity.Property(e => e.IdJugadorPartido).HasColumnName("id_jugador_partido");
 
                 entity.Property(e => e.Goles).HasColumnName("goles");
 
@@ -230,16 +239,16 @@ namespace hockey_rest.Models
                 entity.Property(e => e.TarjetasVerdes).HasColumnName("tarjetas_verdes");
 
                 entity.HasOne(d => d.IdJugadorNavigation)
-                    .WithMany()
+                    .WithMany(p => p.JugadorPartidos)
                     .HasForeignKey(d => d.IdJugador)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__jugador_p__id_ju__4E88ABD4");
+                    .HasConstraintName("FK__jugador_p__id_ju__2DE6D218");
 
                 entity.HasOne(d => d.IdPartidoNavigation)
-                    .WithMany()
+                    .WithMany(p => p.JugadorPartidos)
                     .HasForeignKey(d => d.IdPartido)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__jugador_p__id_pa__4F7CD00D");
+                    .HasConstraintName("FK__jugador_p__id_pa__2EDAF651");
             });
 
             modelBuilder.Entity<Partido>(entity =>
