@@ -33,7 +33,7 @@ namespace hockey_rest.Util
             return parameter;
         }
 
-        public static DataSet ExecuteQueryDataSet(string query, params SqlParameter[] parametros)
+        public static DataRowCollection ExecuteQueryDataSet(string query, params SqlParameter[] parametros)
         {
             try
             {
@@ -68,7 +68,7 @@ namespace hockey_rest.Util
                         }
                     }
                 }
-                return result;
+                return result.Tables[0].Rows;
             }
             catch (Exception)
             {

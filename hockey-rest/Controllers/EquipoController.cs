@@ -1,4 +1,5 @@
 ﻿using hockey_rest.Models;
+using hockey_rest.Models.Common;
 using hockey_rest.Models.Constants;
 using hockey_rest.Models.Request;
 using hockey_rest.Models.Response;
@@ -47,15 +48,31 @@ namespace hockey_rest.Controllers
         public IActionResult ObtenerEquipos()
         {
             Respuesta respuesta = new Respuesta();
+            List<ListaEquiposDTO> listaEquipos = new List<ListaEquiposDTO>();
+            List<EquipoRequest> equiposParticipantes = new List<EquipoRequest>();
 
             try
             {
-                using (hockeydbContext db = new Models.hockeydbContext())
+                listaEquipos = _equipoService.ObtenerTodosEquipos();
+                equiposParticipantes = _equipoService.ObtenerEquiposParticipantes();
+
+                foreach (var equipo in listaEquipos)
                 {
-                    var lst = db.Equipos.ToList();
-                    respuesta.Exito = EstadoRespuesta.Ok;
-                    respuesta.Data = lst;
+                    var result = equiposParticipantes.Where(x => x.IdEquipo.Equals(equipo.IdEquipo)).FirstOrDefault();
+
+                    if (result != null)
+                        equipo.Estado = true;
                 }
+
+                respuesta.Exito = EstadoRespuesta.Ok;
+                respuesta.Data = listaEquipos;
+
+                //using (hockeydbContext db = new Models.hockeydbContext())
+                //{
+                //    var lst = db.Equipos.ToList();
+                //    respuesta.Exito = EstadoRespuesta.Ok;
+                //    respuesta.Data = lst;
+                //}
             }
             catch (Exception ex)
             {
