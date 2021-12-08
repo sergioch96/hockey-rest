@@ -64,7 +64,10 @@ namespace hockey_rest.Services
                         new Claim(ClaimTypes.Role, usuario.IdTipoUsuario.ToString())
                     }),
                     Expires = DateTime.UtcNow.AddDays(1),
-                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(llave), SecurityAlgorithms.HmacSha256Signature)
+                    SigningCredentials = new SigningCredentials(
+                        new SymmetricSecurityKey(llave), 
+                        SecurityAlgorithms.HmacSha256Signature
+                    )
                 };
 
                 var token = tokenHandler.CreateToken(tokenDescriptor);
@@ -75,7 +78,6 @@ namespace hockey_rest.Services
             {
                 throw new Exception("Ocurrió un error al intentar generar el token para el usuario.");
             }
-
         }
     }
 }

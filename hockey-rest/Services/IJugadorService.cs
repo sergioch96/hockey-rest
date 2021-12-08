@@ -9,5 +9,7 @@ namespace hockey_rest.Services
     public interface IJugadorService
     {
         public void AgregarJugador(PersonaDTO jugador);
+
+        public List<PersonaDTO> GetJugadoresPorEquipo(int idEquipo);
     }
 }

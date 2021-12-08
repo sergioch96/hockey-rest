@@ -32,9 +32,10 @@ namespace hockey_rest.Controllers
 
             try
             {
-                _equipoService.AgregarEquipo(model);
+                var idEquipo = _equipoService.AgregarEquipo(model);
                 respuesta.Exito = EstadoRespuesta.Ok;
                 respuesta.Mensaje = "Equipo agregado exitosamente.";
+                respuesta.Data = idEquipo;
             }
             catch (Exception ex)
             {
@@ -73,6 +74,26 @@ namespace hockey_rest.Controllers
                 //    respuesta.Exito = EstadoRespuesta.Ok;
                 //    respuesta.Data = lst;
                 //}
+            }
+            catch (Exception ex)
+            {
+                respuesta.Mensaje = ex.Message;
+            }
+
+            return Ok(respuesta);
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult GetEquipo(int id)
+        {
+            Respuesta respuesta = new Respuesta();
+
+            try
+            {
+                var equipo = _equipoService.GetEquipo(id);
+
+                respuesta.Exito = EstadoRespuesta.Ok;
+                respuesta.Data = equipo;
             }
             catch (Exception ex)
             {

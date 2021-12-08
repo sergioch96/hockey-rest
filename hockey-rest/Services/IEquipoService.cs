@@ -9,10 +9,12 @@ namespace hockey_rest.Services
 {
     public interface IEquipoService
     {
-        public void AgregarEquipo(EquipoRequest model);
+        public int AgregarEquipo(EquipoRequest model);
 
         public List<EquipoRequest> ObtenerEquiposParticipantes();
 
         public List<ListaEquiposDTO> ObtenerTodosEquipos();
+
+        public ListaEquiposDTO GetEquipo(int idEquipo);
     }
 }

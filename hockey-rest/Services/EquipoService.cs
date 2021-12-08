@@ -18,7 +18,7 @@ namespace hockey_rest.Services
         /// <summary>
         /// recupera todos los equipos participantes del campeonato activo
         /// </summary>
-        private const string QRY_EQUIPOS_PARTICIPANTES= "SELECT e.id_equipo, e.equipo FROM campeonato_equipo ce " +
+        private const string QRY_EQUIPOS_PARTICIPANTES = "SELECT e.id_equipo, e.equipo FROM campeonato_equipo ce " +
                                                         "INNER JOIN equipo e on ce.id_equipo = e.id_equipo " +
                                                         "WHERE ce.id_campeonato = @id_campeonato";
 
@@ -30,13 +30,22 @@ namespace hockey_rest.Services
                                                     "INNER JOIN persona p2 on e.id_asistente_tecnico = p2.id_persona " +
                                                     "INNER JOIN persona p3 on e.id_preparador_fisico = p3.id_persona ";
 
+        /// <summary>
+        /// obtiene un equipo por su id_equipo
+        /// </summary>
+        private const string QRY_GET_EQUIPO = "SELECT e.id_equipo, e.equipo, p1.nombre_apellido as DT, p2.nombre_apellido as AT, p3.nombre_apellido as PF FROM equipo e " +
+                                                "INNER JOIN persona p1 on e.id_director_tecnico = p1.id_persona " +
+                                                "INNER JOIN persona p2 on e.id_asistente_tecnico = p2.id_persona " +
+                                                "INNER JOIN persona p3 on e.id_preparador_fisico = p3.id_persona " +
+                                                "WHERE e.id_equipo = @id_equipo";
+
         #endregion
 
         /// <summary>
         /// Método que almacena un equipo y su cuerpo técnico
         /// </summary>
         /// <param name="model"></param>
-        public void AgregarEquipo(EquipoRequest model)
+        public int AgregarEquipo(EquipoRequest model)
         {
             using (hockeydbContext db = new hockeydbContext())
             {
@@ -92,8 +101,10 @@ namespace hockey_rest.Services
                         db.SaveChanges();
 
                         transaction.Commit();
+
+                        return equipo.IdEquipo;
                     }
-                    catch (Exception)
+                    catch (Exception e)
                     {
                         transaction.Rollback();
                         throw new Exception("Ocurrió un error al intentar guardar el equipo.");
@@ -124,12 +135,10 @@ namespace hockey_rest.Services
                         NombreEquipo = item[1].ToString()
                     });
                 }
-
             }
             catch (Exception)
             {
-
-                throw;
+                throw new Exception("Ocurrió un error al intentar obtener equipo participantes.");
             }
 
             return listaEquipos;
@@ -162,11 +171,42 @@ namespace hockey_rest.Services
             }
             catch (Exception)
             {
-
-                throw;
+                throw new Exception("Ocurrió un error al intentar obtener todos los equipos existentes.");
             }
 
             return listaEquipos;
+        }
+
+        /// <summary>
+        /// Obtiene un equipo por su id_equipo
+        /// </summary>
+        /// <returns>El equipo</returns>
+        public ListaEquiposDTO GetEquipo(int idEquipo)
+        {
+            ListaEquiposDTO equipo = new ListaEquiposDTO();
+
+            try
+            {
+                var result = SqlServerUtil.ExecuteQueryDataSet(QRY_GET_EQUIPO, SqlServerUtil.CreateParameter("id_equipo", SqlDbType.Int, idEquipo));
+
+                if (result != null)
+                {
+                    foreach (DataRow item in result)
+                    {
+                        equipo.IdEquipo = int.Parse(item[0].ToString());
+                        equipo.NombreEquipo = item[1].ToString();
+                        equipo.DirectorTecnico = item[2].ToString();
+                        equipo.AsistenteTecnico = item[3].ToString();
+                        equipo.PreparadorFisico = item[4].ToString();                        
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Ocurrió un error al intentar obtener un equipo.");
+            }
+
+            return equipo;
         }
     }
 }

@@ -3,12 +3,8 @@ using hockey_rest.Models.Constants;
 using hockey_rest.Models.Response;
 using hockey_rest.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace hockey_rest.Controllers
 {
@@ -33,6 +29,25 @@ namespace hockey_rest.Controllers
                 _jugadorService.AgregarJugador(jugador);
                 respuesta.Exito = EstadoRespuesta.Ok;
                 respuesta.Mensaje = "Jugador agregado exitosamente.";
+            }
+            catch (Exception ex)
+            {
+                respuesta.Mensaje = ex.Message;
+            }
+
+            return Ok(respuesta);
+        }
+
+        [HttpGet("{idEquipo}")]
+        public IActionResult GetJugadoresPorEquipo(int idEquipo)
+        {
+            Respuesta respuesta = new Respuesta();
+
+            try
+            {
+                var jugadores = _jugadorService.GetJugadoresPorEquipo(idEquipo);
+                respuesta.Exito = EstadoRespuesta.Ok;
+                respuesta.Data = jugadores;
             }
             catch (Exception ex)
             {
