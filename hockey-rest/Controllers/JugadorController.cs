@@ -1,4 +1,5 @@
-﻿using hockey_rest.Models.Common;
+﻿using hockey_rest.Models;
+using hockey_rest.Models.Common;
 using hockey_rest.Models.Constants;
 using hockey_rest.Models.Response;
 using hockey_rest.Services;
@@ -29,6 +30,29 @@ namespace hockey_rest.Controllers
                 _jugadorService.AgregarJugador(jugador);
                 respuesta.Exito = EstadoRespuesta.Ok;
                 respuesta.Mensaje = "Jugador agregado exitosamente.";
+            }
+            catch (Exception ex)
+            {
+                respuesta.Mensaje = ex.Message;
+            }
+
+            return Ok(respuesta);
+        }
+
+        [HttpPut, Authorize]
+        public IActionResult EditarJugador(Persona jugador)
+        {
+            Respuesta respuesta = new Respuesta();
+
+            try
+            {
+                using (hockeydbContext db = new hockeydbContext())
+                {
+                    db.Personas.Update(jugador);
+                    db.SaveChanges();
+                    respuesta.Exito = EstadoRespuesta.Ok;
+                    respuesta.Mensaje = "Jugador modificado exitosamente.";
+                }
             }
             catch (Exception ex)
             {
