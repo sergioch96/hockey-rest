@@ -22,6 +22,13 @@ namespace hockey_rest.Util
             return configuration.GetConnectionString("DevConnection");
         }
 
+        /// <summary>
+        /// Crea un parametro de SqlServer
+        /// </summary>
+        /// <param name="nombre">nombre del parametro en el query (le agrega @)</param>
+        /// <param name="tipo">tipo de dato</param>
+        /// <param name="valor">valor del parametro</param>
+        /// <returns>SqlParameter creado</returns>
         public static SqlParameter CreateParameter(string nombre, SqlDbType tipo, object valor)
         {
             var parameter = new SqlParameter();
@@ -33,6 +40,12 @@ namespace hockey_rest.Util
             return parameter;
         }
 
+        /// <summary>
+        /// Ejecuta una consulta sobre la base de datos
+        /// </summary>
+        /// <param name="query"></param>
+        /// <param name="parametros"></param>
+        /// <returns>DataSet con la estructura de tablas devuelta por la consulta</returns>
         public static DataRowCollection ExecuteQueryDataSet(string query, params SqlParameter[] parametros)
         {
             try
@@ -77,6 +90,12 @@ namespace hockey_rest.Util
             }
         }
 
+        /// <summary>
+        /// Ejecuta una consulta sobre la base de datos
+        /// </summary>
+        /// <param name="query"></param>
+        /// <param name="parametros"></param>
+        /// <returns>Núnero de filas afectadas</returns>
         public static int ExecuteNonQuery(string query, params SqlParameter[] parametros)
         {
             int affRows = 0;
