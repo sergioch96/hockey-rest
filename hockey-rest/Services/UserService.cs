@@ -38,6 +38,7 @@ namespace hockey_rest.Services
 
                     userResponse.Usuario = usuario.User;
                     userResponse.Token = GetToken(usuario);
+                    userResponse.IdTipoUsuario = usuario.IdTipoUsuario;
                 }
 
                 return userResponse;

@@ -18,10 +18,11 @@ namespace hockey_rest.Services
         /// </summary>
         public const string QRY_GET_PARTIDO = "SELECT p.id_partido, p.id_equipo_local, e1.equipo, p.id_equipo_visitante, e2.equipo, p.num_fecha, p.dia, p.hora, " +
                                                         "p.id_arbitro1, p1.nombre_apellido, p.id_arbitro2, p2.nombre_apellido, p.id_juez, p3.nombre_apellido, " +
-                                                        "p.goles_local, p.goles_visitante, p.capitan_local, p.capitan_visitante, p.estado " +
+                                                        "p.goles_local, p.goles_visitante, p.capitan_local, p.capitan_visitante, p.estado, es.estado_partido " +
                                                 "FROM partido p " +
                                                 "INNER JOIN equipo e1 on p.id_equipo_local = e1.id_equipo " +
                                                 "INNER JOIN equipo e2 on p.id_equipo_visitante = e2.id_equipo " +
+                                                "INNER JOIN estado_partido es on p.estado = es.id_estado_partido " +
                                                 "LEFT JOIN persona p1 on p.id_arbitro1 = p1.id_persona " +
                                                 "LEFT JOIN persona p2 on p.id_arbitro2 = p2.id_persona " +
                                                 "LEFT JOIN persona p3 on p.id_juez = p3.id_persona " +
@@ -32,10 +33,11 @@ namespace hockey_rest.Services
         /// </summary>
         private const string QRY_OBTENER_PARTIDOS = "SELECT p.id_partido, p.id_equipo_local, e1.equipo, p.id_equipo_visitante, e2.equipo, p.num_fecha, p.dia, p.hora, " +
                                                         "p.id_arbitro1, p1.nombre_apellido, p.id_arbitro2, p2.nombre_apellido, p.id_juez, p3.nombre_apellido, " +
-                                                        "p.goles_local, p.goles_visitante, p.capitan_local, p.capitan_visitante, p.estado " +
+                                                        "p.goles_local, p.goles_visitante, p.capitan_local, p.capitan_visitante, p.estado, es.estado_partido " +
                                                 "FROM partido p " +
                                                 "INNER JOIN equipo e1 on p.id_equipo_local = e1.id_equipo " +
                                                 "INNER JOIN equipo e2 on p.id_equipo_visitante = e2.id_equipo " +
+                                                "INNER JOIN estado_partido es on p.estado = es.id_estado_partido " +
                                                 "LEFT JOIN persona p1 on p.id_arbitro1 = p1.id_persona " +
                                                 "LEFT JOIN persona p2 on p.id_arbitro2 = p2.id_persona " +
                                                 "LEFT JOIN persona p3 on p.id_juez = p3.id_persona " +
@@ -72,8 +74,8 @@ namespace hockey_rest.Services
                         partido.IdEquipoVisitante = int.Parse(item[3].ToString());
                         partido.EquipoVisitante = item[4].ToString();
                         partido.FechaTorneo = item[5].ToString();
-                        partido.Dia = !string.IsNullOrEmpty(item[6].ToString()) ? DateTime.Parse(item[6].ToString()) : DateTime.MinValue;
-                        partido.Hora = item[7].ToString();
+                        partido.Dia = !string.IsNullOrEmpty(item[6].ToString()) ? DateTime.Parse(item[6].ToString()).ToString("dd/MM/yyyy") : "";
+                        partido.Hora = !string.IsNullOrEmpty(item[7].ToString()) ? item[7].ToString().Substring(0, 5) : "";
                         partido.IdArbitro1 = !string.IsNullOrEmpty(item[8].ToString()) ? int.Parse(item[8].ToString()) : 0;
                         partido.Arbitro1 = item[9].ToString();
                         partido.IdArbitro2 = !string.IsNullOrEmpty(item[10].ToString()) ? int.Parse(item[10].ToString()) : 0;
@@ -85,6 +87,7 @@ namespace hockey_rest.Services
                         partido.CapitanLocal = item[16].ToString();
                         partido.CapitanVisitante = item[17].ToString();
                         partido.IdEstado = int.Parse(item[18].ToString());
+                        partido.Estado = item[19].ToString();
                     }
                 }
             }
@@ -121,8 +124,8 @@ namespace hockey_rest.Services
                         IdEquipoVisitante = int.Parse(item[3].ToString()),
                         EquipoVisitante = item[4].ToString(),
                         FechaTorneo = item[5].ToString(),
-                        Dia = !string.IsNullOrEmpty(item[6].ToString()) ? DateTime.Parse(item[6].ToString()) : DateTime.MinValue,
-                        Hora = item[7].ToString(),
+                        Dia = !string.IsNullOrEmpty(item[6].ToString()) ? DateTime.Parse(item[6].ToString()).ToString("dd/MM/yyyy") : "",
+                        Hora = !string.IsNullOrEmpty(item[7].ToString()) ? item[7].ToString().Substring(0, 5) : "",
                         IdArbitro1 = !string.IsNullOrEmpty(item[8].ToString()) ? int.Parse(item[8].ToString()) : 0,
                         Arbitro1 = item[9].ToString(),
                         IdArbitro2 = !string.IsNullOrEmpty(item[10].ToString()) ? int.Parse(item[10].ToString()) : 0,
@@ -133,7 +136,8 @@ namespace hockey_rest.Services
                         GolesVisitante = !string.IsNullOrEmpty(item[15].ToString()) ? int.Parse(item[15].ToString()) : 0,
                         CapitanLocal = item[16].ToString(),
                         CapitanVisitante = item[17].ToString(),
-                        IdEstado = int.Parse(item[18].ToString())
+                        IdEstado = int.Parse(item[18].ToString()),
+                        Estado = item[19].ToString()
                     });
                 }
             }

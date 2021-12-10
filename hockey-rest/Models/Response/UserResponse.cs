@@ -9,5 +9,6 @@ namespace hockey_rest.Models.Response
     {
         public string Usuario { get; set; }
         public string Token { get; set; }
+        public int IdTipoUsuario { get; set; }
     }
 }

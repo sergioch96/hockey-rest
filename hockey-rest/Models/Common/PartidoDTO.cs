@@ -10,7 +10,8 @@ namespace hockey_rest.Models.Common
         public int IdPartido { get; set; }
         public string FechaTorneo { get; set; }
         public int IdEstado { get; set; }
-        public DateTime Dia { get; set; }
+        public string Estado { get; set; }
+        public string Dia { get; set; }
         public string Hora { get; set; }
         public string EquipoLocal { get; set; }
         public int IdEquipoLocal { get; set; }
