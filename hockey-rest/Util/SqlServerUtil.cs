@@ -12,7 +12,7 @@ namespace hockey_rest.Util
     {
         private static string _connStringSqlServer;
 
-        private static string GetConnectionString()
+        public static string GetConnectionString()
         {
             IConfigurationRoot configuration = new ConfigurationBuilder()
                     .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)

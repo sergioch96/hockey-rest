@@ -13,5 +13,7 @@ namespace hockey_rest.Services
         public List<PartidoDTO> ObtenerPartidos();
 
         public int ProgramarPartido(PartidoDTO partido);
+
+        public int FinalizarPartido(PartidoDTO partido);
     }
 }

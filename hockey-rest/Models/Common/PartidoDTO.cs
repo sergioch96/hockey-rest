@@ -27,5 +27,7 @@ namespace hockey_rest.Models.Common
         public int IdJuez { get; set; }
         public string CapitanLocal { get; set; }
         public string CapitanVisitante { get; set; }
+        public List<JugadorPartidoDTO> JugadoresLocal { get; set; }
+        public List<JugadorPartidoDTO> JugadoresVisitante { get; set; }
     }
 }

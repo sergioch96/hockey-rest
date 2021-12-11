@@ -62,16 +62,45 @@ namespace hockey_rest.Controllers
             return Ok(respuesta);
         }
 
-        [HttpPut, Authorize]
+        [HttpPut("programar"), Authorize]
         public IActionResult ProgramarPartido(PartidoDTO partido)
         {
             Respuesta respuesta = new Respuesta();
 
             try
             {
-                var partidos = _partidoService.ProgramarPartido(partido);
-                respuesta.Exito = EstadoRespuesta.Ok;
-                respuesta.Mensaje = "Partido programado correctamente";
+                var result = _partidoService.ProgramarPartido(partido);
+                if (result > 0)
+                {
+                    respuesta.Exito = EstadoRespuesta.Ok;
+                    respuesta.Mensaje = "Partido programado correctamente";
+                }
+                else
+                    respuesta.Mensaje = "Partido no programado correctamente";
+            }
+            catch (Exception ex)
+            {
+                respuesta.Mensaje = ex.Message;
+            }
+
+            return Ok(respuesta);
+        }
+
+        [HttpPut("cargar"), Authorize]
+        public IActionResult CargarPartido(PartidoDTO partido)
+        {
+            Respuesta respuesta = new Respuesta();
+
+            try
+            {
+                var result = _partidoService.FinalizarPartido(partido);
+                if (result > 0)
+                {
+                    respuesta.Exito = EstadoRespuesta.Ok;
+                    respuesta.Mensaje = "Partido finalizado correctamente";
+                }
+                else
+                    respuesta.Mensaje = "Partido no finalizado correctamente";
             }
             catch (Exception ex)
             {
