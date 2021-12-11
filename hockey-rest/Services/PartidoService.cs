@@ -17,16 +17,16 @@ namespace hockey_rest.Services
         /// obtiene los datos de un partido en particular
         /// </summary>
         public const string QRY_GET_PARTIDO = "SELECT p.id_partido, p.id_equipo_local, e1.equipo, p.id_equipo_visitante, e2.equipo, p.num_fecha, p.dia, p.hora, " +
-                                                        "p.id_arbitro1, p1.nombre_apellido, p.id_arbitro2, p2.nombre_apellido, p.id_juez, p3.nombre_apellido, " +
-                                                        "p.goles_local, p.goles_visitante, p.capitan_local, p.capitan_visitante, p.estado, es.estado_partido " +
-                                                "FROM partido p " +
-                                                "INNER JOIN equipo e1 on p.id_equipo_local = e1.id_equipo " +
-                                                "INNER JOIN equipo e2 on p.id_equipo_visitante = e2.id_equipo " +
-                                                "INNER JOIN estado_partido es on p.estado = es.id_estado_partido " +
-                                                "LEFT JOIN persona p1 on p.id_arbitro1 = p1.id_persona " +
-                                                "LEFT JOIN persona p2 on p.id_arbitro2 = p2.id_persona " +
-                                                "LEFT JOIN persona p3 on p.id_juez = p3.id_persona " +
-                                                "WHERE p.id_partido = @id_partido";
+                                                     "p.id_arbitro1, p1.nombre_apellido, p.id_arbitro2, p2.nombre_apellido, p.id_juez, p3.nombre_apellido, " +
+                                                     "p.goles_local, p.goles_visitante, p.capitan_local, p.capitan_visitante, p.estado, es.estado_partido " +
+                                              "FROM partido p " +
+                                              "INNER JOIN equipo e1 on p.id_equipo_local = e1.id_equipo " +
+                                              "INNER JOIN equipo e2 on p.id_equipo_visitante = e2.id_equipo " +
+                                              "INNER JOIN estado_partido es on p.estado = es.id_estado_partido " +
+                                              "LEFT JOIN persona p1 on p.id_arbitro1 = p1.id_persona " +
+                                              "LEFT JOIN persona p2 on p.id_arbitro2 = p2.id_persona " +
+                                              "LEFT JOIN persona p3 on p.id_juez = p3.id_persona " +
+                                              "WHERE p.id_partido = @id_partido";
 
         /// <summary>
         /// obtiene todos los partidos de un campeonato
@@ -34,22 +34,22 @@ namespace hockey_rest.Services
         private const string QRY_OBTENER_PARTIDOS = "SELECT p.id_partido, p.id_equipo_local, e1.equipo, p.id_equipo_visitante, e2.equipo, p.num_fecha, p.dia, p.hora, " +
                                                         "p.id_arbitro1, p1.nombre_apellido, p.id_arbitro2, p2.nombre_apellido, p.id_juez, p3.nombre_apellido, " +
                                                         "p.goles_local, p.goles_visitante, p.capitan_local, p.capitan_visitante, p.estado, es.estado_partido " +
-                                                "FROM partido p " +
-                                                "INNER JOIN equipo e1 on p.id_equipo_local = e1.id_equipo " +
-                                                "INNER JOIN equipo e2 on p.id_equipo_visitante = e2.id_equipo " +
-                                                "INNER JOIN estado_partido es on p.estado = es.id_estado_partido " +
-                                                "LEFT JOIN persona p1 on p.id_arbitro1 = p1.id_persona " +
-                                                "LEFT JOIN persona p2 on p.id_arbitro2 = p2.id_persona " +
-                                                "LEFT JOIN persona p3 on p.id_juez = p3.id_persona " +
-                                                "WHERE p.id_campeonato = @id_campeonato";
+                                                    "FROM partido p " +
+                                                    "INNER JOIN equipo e1 on p.id_equipo_local = e1.id_equipo " +
+                                                    "INNER JOIN equipo e2 on p.id_equipo_visitante = e2.id_equipo " +
+                                                    "INNER JOIN estado_partido es on p.estado = es.id_estado_partido " +
+                                                    "LEFT JOIN persona p1 on p.id_arbitro1 = p1.id_persona " +
+                                                    "LEFT JOIN persona p2 on p.id_arbitro2 = p2.id_persona " +
+                                                    "LEFT JOIN persona p3 on p.id_juez = p3.id_persona " +
+                                                    "WHERE p.id_campeonato = @id_campeonato";
 
         /// <summary>
         /// Actualiza un partido a estado programado
         /// </summary>
         private const string QRY_PROGRAMAR_PARTIDO = "UPDATE partido " +
-                                                      "SET id_arbitro1 = @id_arbitro1, id_arbitro2 = @id_arbitro2, " +
-                                                            "id_juez = @id_juez, dia = @dia, hora = @hora, estado = 1 " +
-                                                      "WHERE id_partido = @id_partido";
+                                                     "SET id_arbitro1 = @id_arbitro1, id_arbitro2 = @id_arbitro2, " +
+                                                         "id_juez = @id_juez, dia = @dia, hora = @hora, estado = 1 " +
+                                                     "WHERE id_partido = @id_partido";
 
         /// <summary>
         /// Actualiza un partido a estado finalizado

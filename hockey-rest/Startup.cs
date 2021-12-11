@@ -74,6 +74,7 @@ namespace hockey_rest
             services.AddScoped<IEquipoService, EquipoService>();
             services.AddScoped<IJugadorService, JugadorService>();
             services.AddScoped<IPartidoService, PartidoService>();
+            services.AddScoped<ICampeonatoService, CampeonatoService>();
 
             var appSettingsSection = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection);
