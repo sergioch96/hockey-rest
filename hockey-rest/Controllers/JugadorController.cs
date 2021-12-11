@@ -80,5 +80,43 @@ namespace hockey_rest.Controllers
 
             return Ok(respuesta);
         }
+
+        [HttpGet("jugadorPlanilla/{idEquipo}")]
+        public IActionResult GetJugadoresCargarPlanilla(int idEquipo)
+        {
+            Respuesta respuesta = new Respuesta();
+
+            try
+            {
+                var jugadores = _jugadorService.GetJugadoresCargarPlanilla(idEquipo);
+                respuesta.Exito = EstadoRespuesta.Ok;
+                respuesta.Data = jugadores;
+            }
+            catch (Exception ex)
+            {
+                respuesta.Mensaje = ex.Message;
+            }
+
+            return Ok(respuesta);
+        }
+
+        [HttpGet("jugadorPartidoDisputado/{idEquipo}/{idPartido}")]
+        public IActionResult GetJugadoresPartidoDisputado(int idEquipo, int idPartido)
+        {
+            Respuesta respuesta = new Respuesta();
+
+            try
+            {
+                var jugadores = _jugadorService.GetJugadoresPartidoDisputado(idEquipo, idPartido);
+                respuesta.Exito = EstadoRespuesta.Ok;
+                respuesta.Data = jugadores;
+            }
+            catch (Exception ex)
+            {
+                respuesta.Mensaje = ex.Message;
+            }
+
+            return Ok(respuesta);
+        }
     }
 }
