@@ -41,7 +41,8 @@ namespace hockey_rest.Services
                                                     "LEFT JOIN persona p1 on p.id_arbitro1 = p1.id_persona " +
                                                     "LEFT JOIN persona p2 on p.id_arbitro2 = p2.id_persona " +
                                                     "LEFT JOIN persona p3 on p.id_juez = p3.id_persona " +
-                                                    "WHERE p.id_campeonato = @id_campeonato";
+                                                    "WHERE p.id_campeonato = @id_campeonato " +
+                                                    "ORDER BY p.num_fecha";
 
         /// <summary>
         /// Actualiza un partido a estado programado
