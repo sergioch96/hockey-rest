@@ -15,6 +15,7 @@ namespace hockey_rest.Models.Common
         public int TarjetasAmarillas { get; set; }
         public int TarjetasRojas { get; set; }
         public int PartidosSuspendidos { get; set; }
+        public int PartidosJugados{ get; set; }
         public int IdEquipo { get; set; }
         public string Equipo { get; set; }
     }

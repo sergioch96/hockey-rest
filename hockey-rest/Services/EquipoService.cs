@@ -39,6 +39,19 @@ namespace hockey_rest.Services
                                                 "INNER JOIN persona p3 on e.id_preparador_fisico = p3.id_persona " +
                                                 "WHERE e.id_equipo = @id_equipo";
 
+        /// <summary>
+        /// obtiene las estadisticas de jugadores de un equipo
+        /// </summary>
+        private const string QRY_GET_ESTADISTICAS_JUGADORES = "SELECT pe.nombre_apellido, count(jp.id_partido) as partidos_jugados, sum(jp.goles) as goles, " +
+                                                                     "sum(jp.tarjetas_verdes) as tarjetas_verdes, sum(jp.tarjetas_amarillas) as tarjetas_amarillas, " +
+                                                                     "sum(jp.tarjetas_rojas) as tarjetas_rojas " +
+                                                              "FROM equipo eq " +
+                                                              "INNER JOIN equipo_jugador ej on eq.id_equipo = ej.id_equipo " +
+                                                              "INNER JOIN persona pe on ej.id_jugador = pe.id_persona " +
+                                                              "LEFT JOIN jugador_partido jp on pe.id_persona = jp.id_jugador " +
+                                                              "WHERE ej.fecha_fin is null and eq.id_equipo = @id_equipo " +
+                                                              "GROUP BY pe.nombre_apellido, eq.equipo";
+
         #endregion
 
         /// <summary>
@@ -207,6 +220,43 @@ namespace hockey_rest.Services
             }
 
             return equipo;
+        }
+
+        /// <summary>
+        /// Obtiene las estadisticas de jugadores de un equipo
+        /// </summary>
+        /// <param name="idEquipo"></param>
+        /// <returns>Lista de jugadores</returns>
+        public List<JugadorPartidoDTO> ObtenerPlanillaJugadores(int idEquipo)
+        {
+            List<JugadorPartidoDTO> jugadores = new List<JugadorPartidoDTO>();
+
+            try
+            {
+                var result = SqlServerUtil.ExecuteQueryDataSet(QRY_GET_ESTADISTICAS_JUGADORES, SqlServerUtil.CreateParameter("id_equipo", SqlDbType.Int, idEquipo));
+
+                if (result != null)
+                {
+                    foreach (DataRow item in result)
+                    {
+                        jugadores.Add(new JugadorPartidoDTO
+                        {
+                            NombreApellido = item[0].ToString(),
+                            PartidosJugados = !string.IsNullOrEmpty(item[1].ToString()) ? int.Parse(item[1].ToString()) : 0,
+                            Goles = !string.IsNullOrEmpty(item[2].ToString()) ? int.Parse(item[2].ToString()) : 0,
+                            TarjetasVerdes = !string.IsNullOrEmpty(item[3].ToString()) ? int.Parse(item[3].ToString()) : 0,
+                            TarjetasAmarillas = !string.IsNullOrEmpty(item[4].ToString()) ? int.Parse(item[4].ToString()) : 0,
+                            TarjetasRojas = !string.IsNullOrEmpty(item[5].ToString()) ? int.Parse(item[5].ToString()) : 0
+                        });
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Ocurrió un error al recuperar planilla de jugadores de un equipo.");
+            }
+
+            return jugadores;
         }
     }
 }

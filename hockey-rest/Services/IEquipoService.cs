@@ -16,5 +16,7 @@ namespace hockey_rest.Services
         public List<ListaEquiposDTO> ObtenerTodosEquipos();
 
         public ListaEquiposDTO GetEquipo(int idEquipo);
+
+        public List<JugadorPartidoDTO> ObtenerPlanillaJugadores(int idEquipo);
     }
 }

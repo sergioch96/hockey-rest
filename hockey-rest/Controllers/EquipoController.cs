@@ -102,5 +102,24 @@ namespace hockey_rest.Controllers
 
             return Ok(respuesta);
         }
+
+        [HttpGet("planillaJugadores/{idEquipo}")]
+        public IActionResult GetJugadoresPartidoDisputado(int idEquipo)
+        {
+            Respuesta respuesta = new Respuesta();
+
+            try
+            {
+                var jugadores = _equipoService.ObtenerPlanillaJugadores(idEquipo);
+                respuesta.Exito = EstadoRespuesta.Ok;
+                respuesta.Data = jugadores;
+            }
+            catch (Exception ex)
+            {
+                respuesta.Mensaje = ex.Message;
+            }
+
+            return Ok(respuesta);
+        }
     }
 }
